@@ -29,7 +29,7 @@ class Welcome extends CI_Controller {
         <h2>write1DBarcode method in HTML</h2>';
 
 		//status => Store, Download, View ( Default )
-		$this->htmltopdf($html, $status = 'View');
+		$pdfName = $this->htmltopdf($html, $status = 'View');
 	}
 	
 	public function htmltopdf( String $html, $status = '')
@@ -81,5 +81,6 @@ class Welcome extends CI_Controller {
 		} else {
 			$this->pdf->Output($name, 'I');
 		}        
+		return $name;
 	}
 }
