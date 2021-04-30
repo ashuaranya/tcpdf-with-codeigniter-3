@@ -21,7 +21,7 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		
+
 		$html = '<h1>Welcome to tc pdf example</h1>
         <h2 style="color:red;">Ashutosh:</h2>
         <span style="color:red;">If you are using user-generated content, the tcpdf tag can be unsafe.<br />
@@ -29,10 +29,10 @@ class Welcome extends CI_Controller {
         <h2>write1DBarcode method in HTML</h2>';
 
 		//status => Store, Download, View ( Default )
-		$this->htmltopdf($html, $status = 'Download');
+		$this->htmltopdf($html, $status = 'View');
 	}
 	
-	public function htmltopdf( String $html = '', $status = '')
+	public function htmltopdf( String $html, $status = '')
 	{
 		$this->load->library('pdf');
 
@@ -74,9 +74,9 @@ class Welcome extends CI_Controller {
 
 		$name = 'pdf_'. time() .'.pdf';
 		
-		if($status = "Download") {
+		if($status == "Download") {
 			$this->pdf->Output($name, 'D');
-		} else if($status = "Store") {
+		} else if($status == "Store") {
 			$this->pdf->Output(FCPATH . 'assets/pdf/'.$name, 'F');
 		} else {
 			$this->pdf->Output($name, 'I');
