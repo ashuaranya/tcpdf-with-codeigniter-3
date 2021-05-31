@@ -22,11 +22,63 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 
-		$html = '<h1>Welcome to tc pdf example</h1>
+		$html = '
+		<style>
+        table {
+            width: 300px;
+        }
+		
+        table, th, td {
+			border: solid 1px #DDD;
+            border-collapse: collapse;
+            padding: 10px;
+            text-align: center;
+        }
+
+    </style>
+		<h1>Welcome to tc pdf example</h1>
         <h2 style="color:red;">Ashutosh:</h2>
         <span style="color:red;">If you are using user-generated content, the tcpdf tag can be unsafe.<br />
         You can disable this tag by setting to false the <b>K_TCPDF_CALLS_IN_HTML</b> constant on TCPDF configuration file.</span>
-        <h2>write1DBarcode method in HTML</h2>';
+        <h2>write1DBarcode method in HTML</h2>
+		<div id="tab">
+        <table> 
+				<tr>
+				<th style="background-color: goldenrod;
+				color: white;">Image</th>
+					<th style="background-color: goldenrod;
+					color: white;">Name</th>
+						<th style="background-color: goldenrod;
+						color: white;">Age</th>
+							<th style="background-color: goldenrod;
+							color: white;">Job</th>
+				</tr>
+				<tr>
+				<td><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" border="3" height="100" width="100" /></td>
+					<td>Brian</td>
+						<td>41</td>
+							<td>Blogger</td>
+				</tr>
+				<tr>
+				<td><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" border="3" height="100" width="100" /></td>
+				
+					<td>Matt</td>
+						<td>25</td>
+							<td>Programmer</td>
+				</tr>
+				<tr>
+				<td><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" border="3" height="100" width="100" /></td>
+
+				<td>Arun</td>
+						<td>39</td>
+							<td>Writter</td>
+				</tr>
+			</table>
+		</div>
+
+		</br></br>
+		';
+
 
 		//status => Store, Download, View ( Default )
 		$pdfName = $this->htmltopdf($html, $status = 'View');
