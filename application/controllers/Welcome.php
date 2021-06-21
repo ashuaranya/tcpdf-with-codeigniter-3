@@ -81,9 +81,47 @@ class Welcome extends CI_Controller {
 
 
 		//status => Store, Download, View ( Default )
-		$pdfName = $this->htmltopdf($html, $status = 'View');
+		// $pdfName = $this->htmltopdf($html, $status = 'View');
+		$pdfName = $this->barCodePrint($barCode = 123456, $status = 'View');
 	}
 	
+	public function barCodePrint($barCode, $status){
+		// create new PDF document
+		$this->load->library('pdf');
+		// $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+		// remove default header/footer
+		$this->pdf->setPrintHeader(false);
+		$this->pdf->setPrintFooter(false);
+
+		// set margins
+		$this->pdf->SetMargins(0, 0, 0, true);
+
+		// set auto page breaks false
+		$this->pdf->SetAutoPageBreak(false, 0);
+
+		// add a page
+		$this->pdf->AddPage('P', 'A4');
+		$img_file = FCPATH . 'assets/images/blank.jpg';
+		// Display image on full page
+		$this->pdf->Image($img_file, 0, 0, 210, 297, 'JPG', '', '', true, 200, '', false, false, 0, false, false, true);
+		$this->pdf->SetXY(200, 200);
+		// $this->pdf->WriteHTMLCell(200, 0, "12345", 0, 0, 'C');
+		$this->pdf->WriteHTMLCell(58, 20, 20, 201, '<h1 style="color:white;font-size:30px">'.$barCode.'</h1>', 0, 0, false, true, 'C');
+
+
+		$name = 'pdf_'. time() .'.pdf';
+		
+		if($status == "Download") {
+			$this->pdf->Output($name, 'D');
+		} else if($status == "Store") {
+			$this->pdf->Output(FCPATH . 'assets/pdf/'.$name, 'F');
+		} else {
+			$this->pdf->Output($name, 'I');
+		}        
+		return $name;
+	}
+
 	public function htmltopdf( String $html, $status = '')
 	{
 		$this->load->library('pdf');
@@ -98,6 +136,10 @@ class Welcome extends CI_Controller {
         $this->pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
         $this->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		
+		$img_file = FCPATH . 'assets/images/blank.jpg';
+
+		$this->pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
 
         $this->pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
@@ -110,8 +152,6 @@ class Welcome extends CI_Controller {
 
         $params = $this->pdf->serializeTCPDFtagParameters(array('CODE 128', 'C128', '', '', 80, 30, 0.4, array('position'=>'S', 'border'=>true, 'padding'=>4, 'fgcolor'=>array(0,0,0), 'bgcolor'=>array(255,255,255), 'text'=>true, 'font'=>'helvetica', 'fontsize'=>8, 'stretchtext'=>4), 'N'));
         $html .= '<tcpdf method="write1DBarcode" params="'.$params.'" />';
-
-        $html .= '<tcpdf method="AddPage" /><h2>Graphic Functions</h2>';
 
         $params = $this->pdf->serializeTCPDFtagParameters(array(0));
         $html .= '<tcpdf method="SetDrawColor" params="'.$params.'" />';
